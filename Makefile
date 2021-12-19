@@ -33,6 +33,10 @@ down:
 destroy:
 	@docker-compose down -v
 
+## configure-es: Prepare elasticsearch with fake data
+configure-es:
+	docker-compose exec luxury_catalog-php_container apps/LuxuryCatalogAPI/bin/console elasticsearch:prepare
+
 ## shell:		Interactive shell inside docker
 shell:
 	@docker-compose exec luxury_catalog-php_container sh

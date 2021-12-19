@@ -38,4 +38,4 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - './var/elasticsearch:/usr/share/elasticsearch/data'
+      - './var/elasticsearch:/usr/share/elasticsearch/data:delegated'
