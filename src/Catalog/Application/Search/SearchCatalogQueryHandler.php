@@ -17,6 +17,6 @@ final class SearchCatalogQueryHandler implements QueryHandler
     {
         $products = $this->searchCatalog->__invoke();
 
-        return new ProductsResponse();
+        return ProductsResponse::fromProductsView($products);
     }
 }

@@ -2,12 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Catalog\Application;
+namespace Catalog\Application\Search;
 
-use Catalog\Application\Search\ProductViewModel;
-use Shared\Domain\Bus\Query\QueryResponse;
-
-final class ProductResponse implements QueryResponse
+final class ProductViewModel
 {
     public function __construct(
         private string $sku,
@@ -15,16 +12,6 @@ final class ProductResponse implements QueryResponse
         private string $category,
         private int $price
     ) {}
-
-    public static function fromProductViewModel(ProductViewModel $productViewModel): self
-    {
-        return new self(
-            $productViewModel->sku(),
-            $productViewModel->name(),
-            $productViewModel->category(),
-            $productViewModel->price()
-        );
-    }
 
     public function sku(): string
     {
