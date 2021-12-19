@@ -4,6 +4,8 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $client: '@elasticsearch.client'
 
     LuxuryCatalogAPI\:
         resource: '../src/'
@@ -14,8 +16,14 @@ services:
     Shared\:
         resource: '../../../src/Shared/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    shared.infrastructure.persistence.elasticsearch.elasticsearch_client_factory:
+        class: Shared\Infrastructure\Symfony\Persistence\Elasticsearch\ElasticsearchClientFactory
+        arguments:
+            $host: '%env(ELASTICSEARCH_API_BASE_URL)%'
+
+    elasticsearch.client:
+        class: Elasticsearch\Client
+        factory: '@shared.infrastructure.persistence.elasticsearch.elasticsearch_client_factory'
 
     Shared\Infrastructure\Symfony\Bus\Query\SymfonyQueryBus:
         arguments:
