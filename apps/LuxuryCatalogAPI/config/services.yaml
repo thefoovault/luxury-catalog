@@ -5,8 +5,12 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-   LuxuryCatalogAPI\:
+    LuxuryCatalogAPI\:
         resource: '../src/'
+
+    Catalog\:
+      resource: '../../../src/Catalog/'
+
     Shared\:
         resource: '../../../src/Shared/'
 
