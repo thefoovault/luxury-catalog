@@ -1,13 +1,14 @@
 /vendor
 /.idea
+/var
 
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
 /.env.*.local
-/apps/SymfonyClient/config/secrets/prod/prod.decrypt.private.php
-/apps/SymfonyClient/public/bundles/
-/apps/SymfonyClient/var/
+/apps/LuxuryCatalogAPI/config/secrets/prod/prod.decrypt.private.php
+/apps/LuxuryCatalogAPI/public/bundles/
+/apps/LuxuryCatalogAPI/var/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
