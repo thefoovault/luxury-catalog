@@ -3,7 +3,8 @@
   "autoload": {
     "psr-4": {
       "Shared\\": "src/Shared",
-      "SymfonyClient\\": "apps/SymfonyClient/src"
+      "Catalog\\": "src/Catalog",
+      "LuxuryCatalogAPI\\": "apps/LuxuryCatalogAPI/src"
     }
   },
   "autoload-dev": {
@@ -12,11 +13,11 @@
     }
   },
   "extra": {
-    "bin-dir": "apps/SymfonyClient/bin",
-    "config-dir": "apps/SymfonyClient/config",
-    "src-dir": "apps/SymfonyClient/src",
-    "var-dir": "apps/SymfonyClient/var",
-    "public-dir": "apps/SymfonyClient/public"
+    "bin-dir": "apps/LuxuryCatalogAPI/bin",
+    "config-dir": "apps/LuxuryCatalogAPI/config",
+    "src-dir": "apps/LuxuryCatalogAPI/src",
+    "var-dir": "apps/LuxuryCatalogAPI/var",
+    "public-dir": "apps/LuxuryCatalogAPI/public"
   },
   "require": {
     "symfony/flex": "^1.13",
@@ -29,7 +30,8 @@
     "lambdish/phunctional": "^2.1",
     "ramsey/uuid": "^4.2",
     "symfony/serializer": "^5.3",
-    "symfony/property-access": "^5.3"
+    "symfony/property-access": "^5.3",
+    "elasticsearch/elasticsearch": "^7.16"
   },
   "scripts": {
     "auto-scripts": {

@@ -8,6 +8,15 @@
     "doctrine/instantiator": {
         "version": "1.4.0"
     },
+    "elasticsearch/elasticsearch": {
+        "version": "v7.16.0"
+    },
+    "ezimuel/guzzlestreams": {
+        "version": "3.0.1"
+    },
+    "ezimuel/ringphp": {
+        "version": "1.2.0"
+    },
     "lambdish/phunctional": {
         "version": "v2.1.0"
     },
@@ -81,6 +90,9 @@
     },
     "ramsey/uuid": {
         "version": "4.2.3"
+    },
+    "react/promise": {
+        "version": "v2.8.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
