@@ -12,10 +12,14 @@ use Shared\Domain\Criteria\Filter\Filters;
 final class SearchCatalogQueryHandler implements QueryHandler
 {
     private const CATEGORY = 'category';
+    private const PRICE = 'price';
 
     private const VALID_FILTERS = [
         self::CATEGORY => [
             FilterOperator::EQ,
+        ],
+        self::PRICE => [
+            FilterOperator::LT,
         ],
     ];
 

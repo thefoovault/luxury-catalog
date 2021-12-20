@@ -9,6 +9,10 @@ use Shared\Domain\Criteria\Filter\FilterOperator;
 
 final class ElasticsearchCriteriaConverter
 {
+    private const RANGE_MAPPINGS = [
+        FilterOperator::LT => 'lt'
+    ];
+
     public static function transform(Filter $filter): array
     {
         return self::transformer($filter->operator())($filter);
@@ -17,7 +21,8 @@ final class ElasticsearchCriteriaConverter
     private static function transformer(FilterOperator $operator): callable
     {
         return match ($operator->value()) {
-            FilterOperator::EQ => self::eq()
+            FilterOperator::EQ => self::eq(),
+            FilterOperator::LT => self::range()
         };
     }
 
@@ -26,6 +31,17 @@ final class ElasticsearchCriteriaConverter
         return fn(Filter $filter) => [
             "term" => [
                 $filter->field()->value() => $filter->value()->value()
+            ]
+        ];
+    }
+
+    private static function range(): callable
+    {
+        return fn(Filter $filter) => [
+            "range" => [
+                $filter->field()->value() => [
+                    self::RANGE_MAPPINGS[$filter->operator()->value()] => $filter->value()->value()
+                ]
             ]
         ];
     }
