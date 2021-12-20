@@ -8,6 +8,10 @@ use Catalog\Application\ProductReadModel;
 use Catalog\Application\Search\ProductsViewModel;
 use Catalog\Application\Search\ProductViewModel;
 use Elasticsearch\Client;
+use Shared\Domain\Criteria\Criteria;
+use Shared\Domain\Criteria\Filter\Filter;
+use Shared\Domain\Criteria\Filter\Filters;
+use Shared\Infrastructure\Persistence\Elasticsearch\ElasticsearchCriteriaConverter;
 
 final class ElasticProductReadModel implements ProductReadModel
 {
@@ -17,15 +21,24 @@ final class ElasticProductReadModel implements ProductReadModel
         private Client $client
     ) {}
 
-    public function search(): ProductsViewModel
+    public function search(Criteria $criteria): ProductsViewModel
     {
-        $productsView = [];
-
-        $response = $this->client->search(
-            [
-                'index' => self::INDEX,
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => $this->transformFilters($criteria->filters())
+                    ]
+                ],
+                'size' => $criteria->limit(),
+                'from' => $criteria->offset() * $criteria->limit(),
             ]
-        );
+        ];
+
+        $response = $this->client->search($params);
+
+        $productsView = [];
 
         foreach ($response['hits']['hits'] as $hit) {
             $product = $hit['_source'];
@@ -38,5 +51,15 @@ final class ElasticProductReadModel implements ProductReadModel
         }
 
         return new ProductsViewModel($productsView);
+    }
+
+    public function transformFilters(Filters $filters): array
+    {
+        return array_values(
+            array_map(
+                fn(Filter $filter) => ElasticsearchCriteriaConverter::transform($filter),
+                $filters->filters()
+            )
+        );
     }
 }
