@@ -11,7 +11,7 @@ final class FilterOperator
     public const EQ = 'eq';
     public const LT = 'lt';
 
-    private const VALID_OPERATORS = [
+    public const VALID_OPERATORS = [
         self::EQ,
         self::LT
     ];
