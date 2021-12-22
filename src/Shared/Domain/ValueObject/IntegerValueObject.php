@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shared\Domain\ValueObject;
 
-abstract class IntegerValueObject
+class IntegerValueObject
 {
     public function __construct(
         protected int $value
@@ -13,5 +13,12 @@ abstract class IntegerValueObject
     public function value(): int
     {
         return $this->value;
+    }
+
+    public function subtract(self $number): self
+    {
+        return new static(
+            $this->value - $number->value()
+        );
     }
 }

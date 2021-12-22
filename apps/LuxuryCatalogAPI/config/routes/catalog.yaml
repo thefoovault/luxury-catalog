@@ -1,0 +1,4 @@
+searchCatalog:
+    path: /products
+    controller: LuxuryCatalogAPI\Controller\SearchCatalogController
+    methods: [GET]

@@ -1,0 +1,10 @@
+# Search all products from the luxury catalog
+GET {{url}}/products
+
+###
+# Search products by category from the luxury catalog
+GET {{url}}/products?filter[category][eq]=boots
+
+###
+# Search products by category from the luxury catalog
+GET {{url}}/products?filter[price][lt]=79501
