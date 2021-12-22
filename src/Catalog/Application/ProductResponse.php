@@ -6,6 +6,7 @@ namespace Catalog\Application;
 
 use Catalog\Application\Search\ProductViewModel;
 use Shared\Domain\Bus\Query\QueryResponse;
+use Shared\Domain\Discount\DiscountedPrice\DiscountedPrice;
 
 final class ProductResponse implements QueryResponse
 {
@@ -13,16 +14,16 @@ final class ProductResponse implements QueryResponse
         private string $sku,
         private string $name,
         private string $category,
-        private int $price
+        private PriceResponse $price
     ) {}
 
-    public static function fromProductViewModel(ProductViewModel $productViewModel): self
+    public static function fromProductViewModel(ProductViewModel $productViewModel, DiscountedPrice $discountedPrice): self
     {
         return new self(
             $productViewModel->sku(),
             $productViewModel->name(),
             $productViewModel->category(),
-            $productViewModel->price()
+            PriceResponse::fromDiscountedPrice($discountedPrice)
         );
     }
 
@@ -41,7 +42,7 @@ final class ProductResponse implements QueryResponse
         return $this->category;
     }
 
-    public function price(): int
+    public function price(): array
     {
         return $this->price;
     }

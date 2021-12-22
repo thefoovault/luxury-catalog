@@ -17,6 +17,7 @@ final class SearchCatalog
     public function __invoke(Filters $filters): ProductsViewModel
     {
         $criteria = new Criteria($filters);
+
         return $this->productReadModel->search($criteria);
     }
 }
