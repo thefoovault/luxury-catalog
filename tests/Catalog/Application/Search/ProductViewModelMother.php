@@ -9,6 +9,12 @@ use Faker\Factory;
 
 final class ProductViewModelMother
 {
+    private const CATEGORY_SAMPLES = [
+        'boots',
+        'sandals',
+        'sneakers'
+    ];
+
     public static function create(
         string $sku,
         string $name,
@@ -29,7 +35,7 @@ final class ProductViewModelMother
         return self::create(
             str_pad((string) Factory::create()->numberBetween(1,5), 6, '0'),
             Factory::create()->text(15),
-            Factory::create()->text(15),
+            Factory::create()->randomElement(self::CATEGORY_SAMPLES),
             Factory::create()->randomNumber(5)
         );
     }

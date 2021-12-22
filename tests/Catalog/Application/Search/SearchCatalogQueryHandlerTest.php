@@ -8,20 +8,33 @@ use Catalog\Application\ProductReadModel;
 use Catalog\Application\Search\SearchCatalog;
 use Catalog\Application\Search\SearchCatalogQueryHandler;
 use PHPUnit\Framework\TestCase;
+use Shared\Application\GetDiscountStrategies\GetDiscountStrategies;
 use Shared\Domain\Criteria\Filter\Exception\InvalidFilter;
+use Shared\Domain\Discount\DiscountCalculatorService;
+use Shared\Infrastructure\Persistence\InMemoryDiscountStrategyRepository;
 use Test\Catalog\Application\ProductsResponseMother;
 use Test\Catalog\Shared\Domain\Criteria\CriteriaMother;
+use Test\Catalog\Shared\Domain\Discount\DiscountedPrice\DiscountedPriceMother;
 
 final class SearchCatalogQueryHandlerTest extends TestCase
 {
     private ProductReadModel $productReadModel;
     private SearchCatalogQueryHandler $searchCatalogQueryHandler;
+    private DiscountCalculatorService $discountCalculatorService;
+    private GetDiscountStrategies $getDiscountStrategies;
 
     protected function setUp(): void
     {
+        $this->discountCalculatorService = new DiscountCalculatorService();
         $this->productReadModel = $this->createMock(ProductReadModel::class);
+        $this->getDiscountStrategies = new GetDiscountStrategies(
+            new InMemoryDiscountStrategyRepository()
+        );
+
         $this->searchCatalogQueryHandler = new SearchCatalogQueryHandler(
-            new SearchCatalog($this->productReadModel)
+            new SearchCatalog($this->productReadModel),
+            $this->getDiscountStrategies,
+            $this->discountCalculatorService
         );
     }
 
@@ -29,7 +42,9 @@ final class SearchCatalogQueryHandlerTest extends TestCase
     {
         unset(
             $this->searchCatalogQueryHandler,
-            $this->productReadModel
+            $this->productReadModel,
+            $this->discountCalculatorService,
+            $this->getDiscountStrategies,
         );
     }
 
@@ -38,7 +53,9 @@ final class SearchCatalogQueryHandlerTest extends TestCase
     {
         $criteria = CriteriaMother::withFieldAndOperator('category', 'eq');
         $productsViewModel = ProductsViewModelMother::random();
-        $expectedResponse = ProductsResponseMother::createFromReadModel($productsViewModel);
+        $strategies = $this->getDiscountStrategies->__invoke();
+
+        $expectedResponse = ProductsResponseMother::createFromReadModel($productsViewModel, $strategies, $this->discountCalculatorService);
 
         $this->productReadModel
             ->expects(self::once())

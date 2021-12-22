@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Test\Catalog\Application;
 
+use Catalog\Application\PriceResponse;
 use Catalog\Application\ProductResponse;
 use Catalog\Application\Search\ProductViewModel;
+use Shared\Domain\Discount\DiscountedPrice\DiscountedPrice;
 
 final class ProductResponseMother
 {
@@ -13,7 +15,7 @@ final class ProductResponseMother
         string $sku,
         string $name,
         string $category,
-        int $price
+        PriceResponse $price
     ): ProductResponse
     {
         return new ProductResponse(
@@ -24,13 +26,13 @@ final class ProductResponseMother
         );
     }
 
-    public static function createFromReadModel(ProductViewModel $productViewModel): ProductResponse
+    public static function createFromReadModel(ProductViewModel $productViewModel, DiscountedPrice $discountedPrice): ProductResponse
     {
         return self::create(
             $productViewModel->sku(),
             $productViewModel->name(),
             $productViewModel->category(),
-            $productViewModel->price()
+            PriceResponseMother::createFromDiscountedPrice($discountedPrice)
         );
     }
 }
