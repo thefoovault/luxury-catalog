@@ -26,12 +26,7 @@ final class PriceResponseMother
 
     public static function createFromDiscountedPrice(DiscountedPrice $discountedPrice): PriceResponse
     {
-        return self::create(
-            $discountedPrice->original()->value(),
-            $discountedPrice->final()->value(),
-            $discountedPrice->percentage()->formatted(),
-            $discountedPrice->currency()->value()
-        );
+        return PriceResponse::fromDiscountedPrice($discountedPrice);
     }
 
 }

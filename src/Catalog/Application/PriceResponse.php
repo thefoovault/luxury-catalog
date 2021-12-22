@@ -11,7 +11,7 @@ final class PriceResponse
     public function __construct(
         private int $original,
         private int $final,
-        private string $discountPercentage,
+        private ?string $discountPercentage,
         private string $currency
     ) {}
 
@@ -20,7 +20,7 @@ final class PriceResponse
         return new self(
             $discountedPrice->original()->value(),
             $discountedPrice->final()->value(),
-            $discountedPrice->percentage()->formatted(),
+            ($discountedPrice->percentage()->value() == 0) ? null : $discountedPrice->percentage()->formatted(),
             $discountedPrice->currency()->value()
         );
     }
@@ -35,12 +35,12 @@ final class PriceResponse
         return $this->final;
     }
 
-    public function discountPercentage(): int
+    public function discountPercentage(): ?string
     {
         return $this->discountPercentage;
     }
 
-    public function currency(): int
+    public function currency(): string
     {
         return $this->currency;
     }
