@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shared\Domain\ValueObject;
 
-abstract class StringValueObject
+class StringValueObject
 {
     public function __construct(
         protected string $value
@@ -13,5 +13,10 @@ abstract class StringValueObject
     public function value(): string
     {
         return $this->value;
+    }
+
+    public function equals(self $value): bool
+    {
+        return $value->value() === $this->value();
     }
 }
